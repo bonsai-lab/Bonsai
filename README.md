@@ -16,3 +16,8 @@ Interactive IV Surface
 
 https://user-images.githubusercontent.com/86531591/136253050-9da6c523-2c3f-4416-a747-0c10aacf74a4.mov
 
+
+# TODO:
+-Solve performance issues
+-Add historic time-series data for instrument prices & greeks
+
