@@ -18,6 +18,6 @@ https://user-images.githubusercontent.com/86531591/136253050-9da6c523-2c3f-4416-
 
 
 # TODO:
--Solve performance issues
+-Solve performance issues /n
 -Add historic time-series data for instrument prices & greeks
 
