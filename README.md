@@ -1,4 +1,4 @@
-# Bonsai Lab - Crypro Analytics Platform
+# Bonsai Lab - Crypto Analytics Platform
 
 (!note: please run locally, as the site is currently not hosted!)
 
