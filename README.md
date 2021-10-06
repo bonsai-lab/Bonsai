@@ -5,7 +5,10 @@
 ![](https://cdn.discordapp.com/attachments/858769699445276696/858822401509031976/image0.jpg)
 
 
-# Features:
+# New Features:
 
 Open Interest & Volume
 ![oi_vol](https://user-images.githubusercontent.com/86531591/136249908-ac77ff77-c6a3-4f0b-8767-5b8e414ca060.png)
+
+Interactive IV Surface
+![surface](https://user-images.githubusercontent.com/86531591/136250346-3d81c392-05b9-435c-b276-b8ce40f45de3.gif)
