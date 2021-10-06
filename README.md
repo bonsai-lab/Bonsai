@@ -1,6 +1,6 @@
 # Bonsai Lab 
 
-Bonsai Lab is an analytics platform for crypto-derivatives <br />
+**Bonsai Lab is an analytics platform for crypto-derivatives <br />**
 (!note: please run locally, as the site is currently not hosted!)<br />
 
 ![](https://cdn.discordapp.com/attachments/858769699445276696/858822401509031976/image0.jpg)
