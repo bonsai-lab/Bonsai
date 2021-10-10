@@ -19,7 +19,7 @@ https://user-images.githubusercontent.com/86531591/136253050-9da6c523-2c3f-4416-
 ![futures](https://user-images.githubusercontent.com/86531591/136684618-cf9ad2bb-c73c-472d-8ac9-2b562ca784f1.png)
 
 
-# TODO:
+# ToDo:
 -Solve performance issues <br />
 -Add historic time-series data for instrument prices & greeks <br />
 -Add flow data
