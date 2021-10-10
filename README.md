@@ -13,8 +13,10 @@ _(!note: please run locally, as the site is currently not hosted!)<br />_
 
 **Interactive IV Surface** <br />
 
-
 https://user-images.githubusercontent.com/86531591/136253050-9da6c523-2c3f-4416-a747-0c10aacf74a4.mov
+
+**Futures Curve** <br />
+![futures](https://user-images.githubusercontent.com/86531591/136684618-cf9ad2bb-c73c-472d-8ac9-2b562ca784f1.png)
 
 
 # TODO:
