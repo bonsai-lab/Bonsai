@@ -1,4 +1,4 @@
-# Bonsai Lab v. 0.1.2
+# Bonsai Lab v.0.1.2
 
 **Bonsai Lab is an analytics platform for crypto-derivatives <br />**
 _(!note: to try, please run locally as the site is currently not hosted!)<br />_
