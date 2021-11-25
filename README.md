@@ -8,7 +8,7 @@ _(!note: to try, please run locally as the site is currently not hosted!)<br />_
 
 # New Features:
 
-**Open Interest & Volume** <br />
+**Open Interest & Volume Screen** <br />
 ![oi_vol](https://user-images.githubusercontent.com/86531591/136249908-ac77ff77-c6a3-4f0b-8767-5b8e414ca060.png) 
 
 **Interactive IV Surface** <br />
