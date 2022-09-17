@@ -24,10 +24,7 @@ from plotly.subplots import make_subplots
 from dash.exceptions import PreventUpdate
 
 
-#__________________________________________________
 
-
-#COLOR SCALE FOR TABLE (VOL)
 
 def discrete_background_color_bins(df, n_bins=7, columns='all'):
     import colorlover
@@ -81,10 +78,6 @@ def discrete_background_color_bins(df, n_bins=7, columns='all'):
     return (styles, html.Div(legend, style={'padding': '5px 0 5px 0'}))
 
 
-
-#___
-
-#BARS FOR OI IN TABLE
 
 def data_bars(df, column):
     n_bins = 100
@@ -188,12 +181,6 @@ def data_bars_diverging(df, column, color_above='#3D9970', color_below='#FF4136'
 
 
 
-
-
-#table text = #ffc800;?
-#__________GET OPTIONS DATA
-
-
 def get_all_active_options():
     import urllib.request, json
     url =  "https://deribit.com/api/v2/public/get_instruments?currency=BTC&kind=option&expired=false"
@@ -205,7 +192,7 @@ def get_all_active_options():
     print(f'{data.shape[0]} active options.')
     return data
 
-# Filter options based on data available from 'get_instruments'
+
 def filter_options(price, active_options):
     # price is the current price of BTC
 
@@ -254,7 +241,6 @@ df_call = df_call.sort_values(by=['Delta']);
 
 
 
-#______TAB STYLE__(MOVE)
 tabs_styles = {
     'height': '44px',
     'align-items': 'center'
@@ -281,7 +267,7 @@ tab_selected_style = {
 }
 
 
-#___________ACTUAL APP__
+
 
 
 (styles, legend) = discrete_background_color_bins(df_call, columns=['MarkIV'])
