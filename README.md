@@ -20,7 +20,7 @@ https://user-images.githubusercontent.com/86531591/136253050-9da6c523-2c3f-4416-
 
 
 # ToDo:
--Solve performance issues <br />
--Add historic time-series data for instrument prices & greeks <br />
--Add flow data
+<br />
+-historic time-series data for instrument prices & greeks <br />
+-flow data
 
