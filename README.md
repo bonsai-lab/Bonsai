@@ -3,7 +3,7 @@
 **Bonsai Lab is an analytics platform for crypto-derivatives <br />**
 _(!note: please run locally as the site is currently not hosted!)<br />_
 
-![](https://cdn.discordapp.com/attachments/858769699445276696/858822401509031976/image0.jpg)
+![](![image](https://github.com/bonsai-lab/Bonsai/assets/86531591/73e41f5b-344a-4c86-a4fb-7964a11cce1a))
 
 
 # New Features:
