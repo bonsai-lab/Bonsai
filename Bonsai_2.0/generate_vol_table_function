@@ -1,0 +1,25 @@
+def generate_volatility_table():
+    try:
+        # Get the volatility surface data
+        X2, Y2, Z2 = generate_volatility_surface()
+
+        if X2 is None or Y2 is None or Z2 is None:
+            raise ValueError("No data returned from generate_volatility_surface.")
+        
+        # Calculate moneyness values
+        last_price = np.mean(X2[0, :])  # Assuming last_price is the average of strike prices in X2
+        moneyness = X2[0, :] / last_price
+        
+        # Convert Z2 to DataFrame
+        df = pd.DataFrame(Z2, index=np.round(Y2[:, 0], 0), columns=np.round(moneyness * 100, 2))  # Convert moneyness to percentage
+        
+        # Clean the DataFrame
+        df.index.name = 'Expiration (Days)'
+        df.columns.name = 'Moneyness'
+        df = df.round(2)
+        
+        return df
+    
+    except Exception as e:
+        print(f"Error generating volatility table: {e}")
+        return pd.DataFrame()  # Return an empty DataFrame if there's an error

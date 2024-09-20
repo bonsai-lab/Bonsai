@@ -1,0 +1,218 @@
+body {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.7rem;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #1b1b1b; /* Dark grey background color for the whole page */
+}
+
+.container-fluid {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.header {
+    padding: 0px;
+}
+
+.plot-container {
+    display: flex;
+    flex-direction: row; /* Align plots horizontally */
+    height: calc(100% - 56px); /* Adjust height to leave space for header and tabs */
+    position: relative;
+    overflow: hidden; /* Ensure no overflow from the container */
+}
+
+.plot-wrapper {
+    position: absolute; /* Use absolute positioning to handle dragging correctly */
+    width: 33.33vw; /* Adjust width for three plots */
+    height: 62vh; /* Use viewport height */
+    border: 2px solid #6f6f6f;
+    background: #2e2e2e;
+    overflow: hidden;
+    cursor: move;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    transform: translate(0, 0); /* Initialize transform */
+    z-index: 1; /* Default z-index */
+    transition: z-index 0.2s; /* Smooth transition */
+}
+
+.plot-header {
+    height: 35px; /* Height of the draggable bar */
+    background: #6f6f6f; /* Dark background for the bar */
+    color: #fff; /* White text color */
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space between title and button */
+    padding: 0 10px;
+    cursor: move; /* Move cursor for dragging */
+}
+
+.plot-header button {
+    font-size: 0.6rem; /* Smaller font size for the button */
+    padding: 2px 6px; /* Smaller padding for a compact button */
+    height: 20px; /* Adjust height to fit in the header */
+}
+
+.plot-content {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Hide overflow within the container */
+}
+
+.resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: #444;
+    cursor: se-resize;
+}
+
+.btn-custom {
+    margin: 10px 0;
+}
+
+
+
+
+/* Custom Navbar Styles */
+.custom-navbar {
+    background-color: #000000; /* background */
+    border-bottom: none;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    padding-left: 20px;
+    padding-right: 0px;
+}
+
+/* Ensure no padding or margin around search bar container */
+.custom-navbar .form-inline {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+
+.custom-navbar .navbar-brand {
+    color: #ecf0f1;  /* Light text color for brand */
+    font-family: 'Roboto Mono', monospace;  /* Custom font */
+    font-size: 1.5rem;  /* Increase brand font size */
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #ecf0f1;  /* Light text color for links */
+    font-size: 1rem;  /* Increase font size for links */
+    margin-right: 15px;  /* Space between links */
+    transition: color 0.3s ease;  /* Smooth hover effect */
+}
+
+
+
+.custom-navbar .navbar-toggler {
+    border: none;  /* Remove border around the toggler button */
+}
+
+.custom-navbar .navbar-toggler-icon {
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"%3E%3Cpath stroke="rgba%2836, 36, 36%29" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E'); /* Custom icon */
+}
+
+.custom-navbar .form-inline .form-control {
+    background-color: #ffb700; /*  background color for input */
+    color: #000000; /* White text color for input */
+    border: none;
+    border-radius: 0;; /* Rounded corners */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+/* Remove padding and margin from the search input field */
+.custom-navbar .form-inline .form-control {
+    margin: 0; /* Remove margin */
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* Optional: Remove border radius for a flush look */
+}
+
+.custom-navbar .form-inline .form-control::placeholder {
+    color: #000000; /* Light grey placeholder text color */
+}
+
+
+
+
+/* WebSocket Output Table Styles */
+.ws-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #333; /* Dark background for better contrast */
+    color: white; /* White text */
+}
+
+.ws-table th, .ws-table td {
+    border: 1px solid #555; /* Border color */
+    padding: 8px;
+    text-align: left;
+}
+
+.ws-table th {
+    background-color: #444; /* Slightly lighter background for headers */
+    font-weight: bold;
+}
+
+.ws-table td {
+    background-color: #222; /* Slightly darker background for table cells */
+}
+
+
+/* 
+.plot-wrapper {
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 10;
+    overflow: hidden;
+} */
+
+/* .plot-header {
+    background-color: #f1f1f1;
+    padding: 10px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+/* .plot-content {
+    padding: 10px;
+} */
+
+/* Hide everything except the header when minimized */
+.minimized {
+    height: 40px; /* Only show the header */
+    overflow: hidden;
+}
+
+.minimize-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.minimize-btn:hover {
+    background-color: #ddd;
+}

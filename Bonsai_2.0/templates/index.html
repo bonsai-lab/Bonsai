@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonsai - Volatility Screen</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/static/styles.css"> <!-- Link to external CSS file -->
+    <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Navbar section -->
+        <nav class="navbar navbar-expand-lg custom-navbar">
+            <a class="navbar-brand" href="#">
+                <img src="/static/images/bonsai.png" alt="B" style="height: 40px; width: auto; margin-right: 0px;"> </a> 
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">File</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Charting</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0" id="searchForm">
+                    <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+                </form>
+                
+                <!-- Section where the WebSocket output will be displayed -->
+                <div id="ws-output" style="margin-top: 20px;">
+                    <!-- WebSocket output will appear here -->
+                </div>
+                
+                
+                
+                
+            </div>
+        </nav>
+
+
+
+        <!-- Plot containers -->
+        <div class="plot-container">
+            <!-- Volatility Plot Wrapper -->
+            <div class="plot-wrapper" id="volatility-plot-wrapper" style="top: 0; left: 0;">
+                <div class="plot-header" id="volatility-plot-header">
+                    <button class="minimize-btn" id="minimize-volatility-btn">_</button> <!-- Minimize Button -->
+                    Realized Volatility
+                    <button id="pause-resume-volatility-btn" class="btn btn-primary btn-custom">Pause</button>
+                    
+                </div>
+                <div class="plot-content" id="volatility-plot-container">
+                    <!-- Real-time volatility plot will be injected here -->
+                </div>
+                <div class="resize-handle" id="volatility-resize-handle"></div>
+            </div>
+
+            <!-- Surface Plot Wrapper -->
+            <div class="plot-wrapper" id="surface-plot-wrapper" style="top: 0; left: 33.33vw;">
+                <div class="plot-header" id="surface-plot-header">
+                    <button class="minimize-btn" id="minimize-surface-btn">_</button> <!-- Minimize Button -->
+                    3D SURFACE
+                    <button id="pause-resume-surface-btn" class="btn btn-primary btn-custom">Pause</button>
+                    
+                </div>
+                <div class="plot-content" id="surface-plot-container">
+                    {{ plot_html | safe }}
+                </div>
+                <div class="resize-handle" id="surface-resize-handle"></div>
+            </div>
+
+            <!-- IV Skew Plot Wrapper -->
+            <div class="plot-wrapper" id="iv-skew-plot-wrapper" style="top: 0; left: 66.66vw;">
+                <div class="plot-header" id="iv-skew-plot-header">
+                    <button class="minimize-btn" id="minimize-iv-skew-btn">_</button> <!-- Minimize Button -->
+                    IV Skew
+                    <button id="pause-resume-iv-skew-btn" class="btn btn-primary btn-custom">Pause</button>
+                    
+                </div>
+                <div class="plot-content" id="iv-skew-plot-container">
+                    {{ iv_skew_plot_html | safe }}
+                </div>
+                <div class="resize-handle" id="iv-skew-resize-handle"></div>
+            </div>
+
+            <!-- WebSocket Output Wrapper -->
+            <div class="plot-wrapper" id="ws-output-wrapper" style="top: 20px; left: 0; width: 300px; height: 400px;">
+                <div class="plot-header" id="ws-output-header">
+                    <button class="minimize-btn" id="minimize-ws-output-btn">_</button> <!-- Minimize Button -->
+                    Insturment
+                    <button id="pause-resume-ws-btn" class="btn btn-primary">Pause/Resume WebSocket</button>
+
+                    
+                </div>
+                <div class="plot-content" id="ws-output-container">
+                    <!-- WebSocket output will appear here -->
+                </div>
+                <div class="resize-handle" id="ws-output-resize-handle"></div>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <!-- Discord widget -->
+    <script src='https://cdn.jsdelivr.net/npm/@widgetbot/crate@3' async defer>
+        new Crate({
+            server: '1285748219329904701', // Bonsaï
+            channel: '1285748220378742889' // #general
+        })
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="/static/scripts.js"></script> <!-- Link to external JS file -->
+</body>
+</html>
