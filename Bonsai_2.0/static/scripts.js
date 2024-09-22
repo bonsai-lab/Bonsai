@@ -4,7 +4,8 @@ let ivSkewUpdateInterval;
 let isSurfacePaused = false;
 let isVolatilityPaused = false;
 let isIvSkewPaused = false;
-let zIndexCounter = 3; // Start z-index counter at 3 to account for 3 plots
+let isIvTermStructurePaused = false;
+let zIndexCounter = 4; // Start z-index counter at 4 to account for 4 plots
 
 // Function to fetch the updated plot
 function fetchUpdatedPlot() {
@@ -44,11 +45,13 @@ function fetchUpdatedVolatilityPlot() {
     });
 }
 
-// Function to fetch the updated IV skew plot
+
+
 function fetchUpdatedIvSkewPlot() {
     $.ajax({
         type: 'POST',
         url: '/update_iv_skew_plot',
+        data: { search: searchQuery },  
         success: function(response) {
             if (response.iv_skew_plot_html) {
                 $('#iv-skew-plot-container').html(response.iv_skew_plot_html);
@@ -64,15 +67,48 @@ function fetchUpdatedIvSkewPlot() {
 }
 
 
-// Function to fetch the updated WebSocket output
+
+
+// Function to fetch the updated IV skew plot
+function fetchUpdatedIvTermStructurePlot() {
+    $.ajax({
+        type: 'POST',
+        url: '/update_iv_term_structure_plot',
+        success: function(response) {
+            if (response.iv_term_structure_plot_html) {
+                $('#iv-term-structure-plot-container').html(response.iv_term_structure_plot_html);
+                if (response.iv_term_structure_plot_data) {
+                    Plotly.react('iv-term-structure-plot-container', JSON.parse(response.iv_term_structure_plot_data));
+                }
+            }
+        },
+        error: function() {
+            console.error('Failed to update the IV term structure plot.');
+        }
+    });
+}
+
+
+
 function fetchUpdatedWsOutput() {
     $.ajax({
         type: 'POST',
-        url: '/search',  // Assuming the same URL for WebSocket updates
-        data: {search: $('#searchInput').val()},  // You can modify this to suit your use case
+        url: '/search',  
+        data: { search: searchQuery }, 
         success: function(response) {
             console.log('WebSocket Update Response:', response.result);
+
+            // Update the #ws-output-container
             $('#ws-output-container').html(formatResponse(response.result));
+
+            // Update the navbar placeholders with WebSocket data
+            let indexPrice = response.result.index_price !== null ? response.result.index_price.toFixed(2) : '--';
+            let highPrice = response.result.stats?.high !== null ? response.result.stats.high.toFixed(2) : '--';
+            let lowPrice = response.result.stats?.low !== null ? response.result.stats.low.toFixed(2) : '--';
+
+            $('#index-price').text(` ${indexPrice}`);
+            $('#high-price').text(` ${highPrice}`);
+            $('#low-price').text(` ${lowPrice}`);
         },
         error: function() {
             console.error('Failed to update WebSocket output.');
@@ -80,6 +116,7 @@ function fetchUpdatedWsOutput() {
         }
     });
 }
+
 
 
 let wsUpdateInterval;
@@ -100,13 +137,6 @@ function stopAutomaticWsUpdates() {
 }
 
 
-
-
-
-
-
-
-
 // Start automatic updates for surface plot
 function startAutomaticSurfaceUpdates() {
     updateInterval = setInterval(fetchUpdatedPlot, 5000); // Update every X ms
@@ -114,19 +144,28 @@ function startAutomaticSurfaceUpdates() {
     isSurfacePaused = false;
 }
 
-// Start automatic updates for volatility plot
+// ... for volatility plot
 function startAutomaticVolatilityUpdates() {
     volatilityUpdateInterval = setInterval(fetchUpdatedVolatilityPlot, 5000); // Update every X ms
     $('#pause-resume-volatility-btn').text('Online').removeClass('btn-secondary').addClass('btn-primary');
     isVolatilityPaused = false;
 }
 
-// Start automatic updates for IV skew plot
+// ... for IV skew plot
 function startAutomaticIvSkewUpdates() {
-    ivSkewUpdateInterval = setInterval(fetchUpdatedIvSkewPlot, 5000); // Update every X ms
+    ivSkewUpdateInterval = setInterval(fetchUpdatedIvSkewPlot, 2000); // Update every X ms
     $('#pause-resume-iv-skew-btn').text('Online').removeClass('btn-secondary').addClass('btn-primary');
     isIvSkewPaused = false;
 }
+
+// ... for IV term structure plot
+function startAutomaticIvTermStructureUpdates() {
+    ivTermStructureUpdateInterval = setInterval(fetchUpdatedIvTermStructurePlot, 5000); // Update every X ms
+    $('#pause-resume-iv-term-structure-btn').text('Online').removeClass('btn-secondary').addClass('btn-primary');
+    isIvTermStructurePaused = false;
+}
+
+
 
 // Stop automatic updates for surface plot
 function stopAutomaticSurfaceUpdates() {
@@ -135,14 +174,14 @@ function stopAutomaticSurfaceUpdates() {
     isSurfacePaused = true;
 }
 
-// Stop automatic updates for volatility plot
+// ... for volatility plot
 function stopAutomaticVolatilityUpdates() {
     clearInterval(volatilityUpdateInterval);
     $('#pause-resume-volatility-btn').text('Offline').removeClass('btn-primary').addClass('btn-secondary');
     isVolatilityPaused = true;
 }
 
-// Stop automatic updates for IV skew plot
+// ... for IV skew plot
 function stopAutomaticIvSkewUpdates() {
     clearInterval(ivSkewUpdateInterval);
     $('#pause-resume-iv-skew-btn').text('Offline').removeClass('btn-primary').addClass('btn-secondary');
@@ -150,6 +189,13 @@ function stopAutomaticIvSkewUpdates() {
 }
 
 
+// ... for IV term structure plot
+function stopAutomaticIvTermStructureUpdates() {
+    clearInterval(ivTermStructureUpdateInterval); // Use the correct interval variable
+    $('#pause-resume-iv-term-structure-btn').text('Offline').removeClass('btn-primary').addClass('btn-secondary');
+    isIvTermStructurePaused = true;
+
+}
 
 // Toggle pause/resume for surface plot
 $('#pause-resume-surface-btn').on('click', function() {
@@ -178,17 +224,30 @@ $('#pause-resume-iv-skew-btn').on('click', function() {
     }
 });
 
+
+// Toggle pause/resume for IV skew plot
+$('#pause-resume-iv-term-structure-btn').on('click', function() {
+    if (isIvTermStructurePaused) {
+        startAutomaticIvTermStructureUpdates();
+    } else {
+        stopAutomaticIvTermStructureUpdates();
+    }
+});
+
 $(document).ready(function() {
     startAutomaticSurfaceUpdates();
     startAutomaticVolatilityUpdates();
     startAutomaticIvSkewUpdates();
+    startAutomaticIvTermStructureUpdates();
     startAutomaticWsUpdates();  // Start WebSocket updates automatically
 
     fetchUpdatedPlot();  // Fetch surface plot immediately on page load
     fetchUpdatedVolatilityPlot();  // Fetch volatility plot immediately on page load
     fetchUpdatedIvSkewPlot();  // Fetch IV skew plot immediately on page load
+    fetchUpdatedIvTermStructurePlot();
     fetchUpdatedWsOutput();  // Fetch WebSocket data immediately on page load
 });
+
 
 // Drag and resize functionality
 function enableDragAndResize(wrapperId, headerId, handleId) {
@@ -252,34 +311,39 @@ function enableDragAndResize(wrapperId, headerId, handleId) {
 }
 
 
+
+let searchQuery = '';  // Global variable to store the search query
+
+// Search bar functionality to update searchQuery when Enter is pressed
 $(document).ready(function() {
     $('#searchInput').on('keypress', function(e) {
-        if (e.which == 13) {  // 13 is the Enter key code
-            let searchQuery = $(this).val();  // Get the value entered in the search bar
-            
-            // Prevent default form submission
-            e.preventDefault();
-            
-            // Send the search query to the backend via AJAX
-            $.ajax({
-                type: 'POST',
-                url: '/search',
-                data: {search: searchQuery},
-                success: function(response) {
-                    console.log('WebSocket Response:', response.result);
-                    
-                    // Format and display the result in the #ws-output-container
-                    $('#ws-output-container').html(formatResponse(response.result));
-                },
-                error: function() {
-                    console.error('Search request failed.');
-                    $('#ws-output-container').html('Error: Unable to fetch data from WebSocket.');
-                }
-            });
+        // Check if the pressed key is Enter (keyCode 13)
+        if (e.which === 13) {
+            e.preventDefault();  // Prevent the default behavior
+
+            searchQuery = $(this).val().trim();  // Store the search query in the global variable
+
+            if (searchQuery !== "") {
+                // Send the search query to the backend via AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: '/search',
+                    data: { search: searchQuery },
+                    success: function(response) {
+                        console.log('WebSocket Response:', response.result);
+
+                        // Format and display the result in the #ws-output-container
+                        $('#ws-output-container').html(formatResponse(response.result));
+                    },
+                    error: function() {
+                        console.error('Search request failed.');
+                        $('#ws-output-container').html('Error: Unable to fetch data from WebSocket.');
+                    }
+                });
+            }
         }
     });
 });
-
 
 
 function formatResponse(data) {
@@ -342,11 +406,69 @@ function enableWindowMinimizing(wrapperId, btnId) {
     });
 }
 
+
+
+
+
+const menuBarHeight = 66; // Adjust this value based on your actual menu bar height
+
+function setPlotDimensions() {
+    const totalHeight = window.innerHeight - menuBarHeight; // Subtract the menu bar height
+    const plotHeight = totalHeight / 2; // Divide height for 2 rows
+    const plotWidth = (window.innerWidth - 300) / 2; // Remaining width for 2 plots
+
+    // Set dimensions for each plot
+    $('.plot-wrapper').css({
+        width: `${plotWidth}px`,
+        height: `${plotHeight}px`,
+        margin: '0px',
+        padding: '0',
+        position: 'absolute'
+    });
+
+    // Position plots in two rows
+    $('#volatility-plot-wrapper').css({ left: '0', top: '0' });
+    $('#surface-plot-wrapper').css({ left: `${plotWidth}px`, top: '0' });
+    $('#iv-skew-plot-wrapper').css({ left: '0', top: `${plotHeight}px` });
+    $('#iv-term-structure-plot-wrapper').css({ left: `${plotWidth}px`, top: `${plotHeight}px` });
+}
+
+// Call the function on document ready and window resize
+$(document).ready(setPlotDimensions);
+$(window).resize(setPlotDimensions);
+
+
+
+function setWsOutputDimensions() {
+    const totalHeight = window.innerHeight - menuBarHeight; // Subtract the menu bar height
+
+    $('#ws-output-wrapper').css({
+        width: '300px', // Fixed width
+        height: `${totalHeight}px`, // Full height minus menu bar
+        margin: '0px',
+        padding: '0',
+        position: 'absolute',
+        top: '0', // Align it to the top of the plots
+        left: `${window.innerWidth - 300}px` // Position it to the right of the plots
+    });
+}
+
+// Call this function similarly
+$(document).ready(setWsOutputDimensions);
+$(window).resize(setWsOutputDimensions);
+
+
+
+
+
+
+
 // Enable minimizing for all windows
 $(document).ready(function() {
     enableWindowMinimizing('volatility-plot-wrapper', 'minimize-volatility-btn');
     enableWindowMinimizing('surface-plot-wrapper', 'minimize-surface-btn');
     enableWindowMinimizing('iv-skew-plot-wrapper', 'minimize-iv-skew-btn');
+    enableWindowMinimizing('iv-term-structure-plot-wrapper', 'minimize-iv-term-structure-btn');
     enableWindowMinimizing('ws-output-wrapper', 'minimize-ws-output-btn');
 });
 
@@ -355,4 +477,5 @@ $(document).ready(function() {
 enableDragAndResize('volatility-plot-wrapper', 'volatility-plot-header', 'volatility-resize-handle');
 enableDragAndResize('surface-plot-wrapper', 'surface-plot-header', 'surface-resize-handle');
 enableDragAndResize('iv-skew-plot-wrapper', 'iv-skew-plot-header', 'iv-skew-resize-handle');
+enableDragAndResize('iv-term-structure-plot-wrapper', 'iv-term-structure-plot-header', 'iv-term-structure-resize-handle');
 enableDragAndResize('ws-output-wrapper', 'ws-output-header', 'ws-output-resize-handle');

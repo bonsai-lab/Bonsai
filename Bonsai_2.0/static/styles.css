@@ -1,11 +1,20 @@
+@font-face {
+    font-family: 'Bloomsai';
+    src: url('/static/fonts/bloomsai-unicode-k.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Bloomsai', sans-serif;
     font-size: 0.7rem;
     margin: 0;
     padding: 0;
     height: 100vh;
     background-color: #1b1b1b; /* Dark grey background color for the whole page */
+    
 }
+
 
 .container-fluid {
     height: 100%;
@@ -30,7 +39,28 @@ body {
     height: calc(100% - 56px); /* Adjust height to leave space for header and tabs */
     position: relative;
     overflow: hidden; /* Ensure no overflow from the container */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
+
+
+
+#ws-output-wrapper {
+    position: absolute; /* Keep it positioned as before */
+    width: auto; /* Allow it to resize with the window */
+    height: auto; /* Allow it to resize with the window */
+}
+
+#ws-output-container {
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    padding: 10px; /* Optional: add some padding */
+}
+
+.ws-table {
+    width: 100%; /* Make the table take the full width of the container */
+}
+
+
 
 .plot-wrapper {
     position: absolute; /* Use absolute positioning to handle dragging correctly */
@@ -104,18 +134,18 @@ body {
     padding: 0; /* Remove default padding */
     display: flex; /* Use flexbox for alignment */
     align-items: center; /* Center items vertically */
+
 }
 
 
 .custom-navbar .navbar-brand {
     color: #ecf0f1;  /* Light text color for brand */
-    font-family: 'Roboto Mono', monospace;  /* Custom font */
-    font-size: 1.5rem;  /* Increase brand font size */
+    font-size: 1rem;  /* Increase brand font size */
 }
 
 .custom-navbar .navbar-nav .nav-link {
     color: #ecf0f1;  /* Light text color for links */
-    font-size: 1rem;  /* Increase font size for links */
+    font-size: 0.8rem;  /* Increase font size for links */
     margin-right: 15px;  /* Space between links */
     transition: color 0.3s ease;  /* Smooth hover effect */
 }
@@ -215,4 +245,58 @@ body {
 
 .minimize-btn:hover {
     background-color: #ddd;
+}
+
+
+
+
+
+
+.flash {
+    animation: flash-animation 0.5s forwards;
+}
+
+@keyframes flash-animation {
+    0% {
+        background-color: yellow; /* Change to any color you prefer */
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+
+
+.navbar .nav-link {
+    font-size: 16px;
+    margin-left: 5px;  /* Add some spacing between the elements */
+}
+
+.custom-navbar .navbar-text {
+    display: flex;  /* Use flex to keep items on the same line */
+    align-items: center; /* Center vertically */
+    margin-right: 15px; /* Space from the search form */
+}
+
+/* Style for the labels */
+.index-label, .high-label, .low-label {
+    color: #ffb700; /* Gray color for the labels */
+    font-size: 15px;
+    margin-right: 5px; /* Space between label and value */
+}
+
+/* Style for the values */
+.index-value {
+    color: #ffffff; /* Orange-red for the index price value */
+    font-size: 15px;
+}
+
+.high-value {
+    color: #ffffff; /* Lime green for the high price value */
+    font-size: 15px;
+}
+
+.low-value {
+    color: #ffffff; /* Dodger blue for the low price value */
+    font-size: 15px;
 }

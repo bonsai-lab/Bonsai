@@ -3,52 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
     <title>Bonsai - Volatility Screen</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap">
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"> -->
     <link rel="stylesheet" href="/static/styles.css"> <!-- Link to external CSS file -->
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
+    
 </head>
 <body>
     <div class="container-fluid">
-        <!-- Navbar section -->
-        <nav class="navbar navbar-expand-lg custom-navbar">
-            <a class="navbar-brand" href="#">
-                <img src="/static/images/bonsai.png" alt="B" style="height: 40px; width: auto; margin-right: 0px;"> </a> 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">File</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Charting</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0" id="searchForm">
-                    <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
-                </form>
-                
-                <!-- Section where the WebSocket output will be displayed -->
-                <div id="ws-output" style="margin-top: 20px;">
-                    <!-- WebSocket output will appear here -->
+       <!-- Navbar section -->
+       <nav class="navbar navbar-expand-lg custom-navbar">
+        <a class="navbar-brand" href="#">
+            <img src="/static/images/bonsai.png" alt="B" style="height: 40px; width: auto; margin-right: 0px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">File</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Charting</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+                <div class="navbar-text" id="pricing-info">
+                    <span class="index-label">P: </span><span class="index-value" id="index-price">0.00</span> |
+                    <span class="high-label">H: </span><span class="high-value" id="high-price">0.00</span> |
+                    <span class="low-label">L: </span><span class="low-value" id="low-price">0.00</span>
                 </div>
-                
-                
-                
-                
-            </div>
-        </nav>
-
-
+            </ul>
+            
+            <form class="form-inline my-2 my-lg-0" id="searchForm" style="margin-left: auto;">
+                <input class="form-control mr-sm-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+    </nav>
+    
+    
 
         <!-- Plot containers -->
         <div class="plot-container">
@@ -67,10 +67,10 @@
             </div>
 
             <!-- Surface Plot Wrapper -->
-            <div class="plot-wrapper" id="surface-plot-wrapper" style="top: 0; left: 33.33vw;">
+            <div class="plot-wrapper" id="surface-plot-wrapper" style="top: 0; left: 25.00vw;">
                 <div class="plot-header" id="surface-plot-header">
                     <button class="minimize-btn" id="minimize-surface-btn">_</button> <!-- Minimize Button -->
-                    3D SURFACE
+                    3D Surface
                     <button id="pause-resume-surface-btn" class="btn btn-primary btn-custom">Pause</button>
                     
                 </div>
@@ -81,7 +81,7 @@
             </div>
 
             <!-- IV Skew Plot Wrapper -->
-            <div class="plot-wrapper" id="iv-skew-plot-wrapper" style="top: 0; left: 66.66vw;">
+            <div class="plot-wrapper" id="iv-skew-plot-wrapper" style="top: 0; left: 50.00vw;">
                 <div class="plot-header" id="iv-skew-plot-header">
                     <button class="minimize-btn" id="minimize-iv-skew-btn">_</button> <!-- Minimize Button -->
                     IV Skew
@@ -93,6 +93,24 @@
                 </div>
                 <div class="resize-handle" id="iv-skew-resize-handle"></div>
             </div>
+
+
+            <!-- IV Term Structure Plot Wrapper -->
+            <div class="plot-wrapper" id="iv-term-structure-plot-wrapper" style="top: 0; left: 75.00vw;">
+                <div class="plot-header" id="iv-term-structure-plot-header">
+                    <button class="minimize-btn" id="minimize-iv-term-structure-btn">_</button> <!-- Minimize Button -->
+                    IV Term Structure
+                    <button id="pause-resume-iv-term-structure-btn" class="btn btn-primary btn-custom">Pause</button>
+                    
+                </div>
+                <div class="plot-content" id="iv-term-structure-plot-container">
+                    {{ iv_term_structure_plot_html | safe }}
+                </div>
+                
+                <div class="resize-handle" id="iv-term-structure-resize-handle"></div>
+            </div>
+
+
 
             <!-- WebSocket Output Wrapper -->
             <div class="plot-wrapper" id="ws-output-wrapper" style="top: 20px; left: 0; width: 300px; height: 400px;">
