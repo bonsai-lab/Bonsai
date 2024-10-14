@@ -3,6 +3,9 @@ from plot_utils import generate_volatility_surface, plot_volatility, plot_iv_ske
 import json
 from websocket import create_connection, WebSocketConnectionClosedException
 import time
+from flask_socketio import SocketIO, emit
+import threading
+
 
 app = Flask(__name__)
 
@@ -27,31 +30,61 @@ def update_volatility_plot():
     return jsonify({'volatility_plot_html': volatility_plot_html, 'volatility_plot_data': volatility_plot_data})
 
 
-
 @app.route('/update_iv_skew_plot', methods=['POST'])
 def update_iv_skew_plot():
-    # Get the search query from the POST request
     search_query = request.form.get('search', None)
-
-    # Extract the strike price from the search query
     strike_price = None
+    expiration = None
+
     if search_query:
         try:
+            # Extract strike price
             strike_price = int(search_query.split('-')[2])
-        except (IndexError, ValueError):
-            return jsonify({'error': 'Invalid search query format'}), 400
+            print(f"Extracted strike price: {strike_price}")
+            
+            # Pass the whole query to the plot function
+            expiration = search_query
+            print(f"Raw expiration input: {expiration}")
 
-    # Pass the extracted strike_price to the plot_iv_skew function
-    iv_skew_plot_html = plot_iv_skew(strike_price)
-    iv_skew_plot_data = {}  
+        except (IndexError, ValueError) as e:
+            return jsonify({'error': 'Invalid search query format', 'details': str(e)}), 400
+
+    iv_skew_plot_html = plot_iv_skew(strike_price, expiration)
+    iv_skew_plot_data = {}
 
     return jsonify({'iv_skew_plot_html': iv_skew_plot_html, 'iv_skew_plot_data': iv_skew_plot_data})
 
 
+# @app.route('/update_iv_term_structure_plot', methods=['POST'])
+# def update_iv_term_structure_plot():
+#     iv_term_structure_plot_html = plot_iv_term_structure()  
+#     iv_term_structure_plot_data = {}  
+#     return jsonify({'iv_term_structure_plot_html': iv_term_structure_plot_html, 'iv_term_structure_plot_data': iv_term_structure_plot_data})
+
+
 @app.route('/update_iv_term_structure_plot', methods=['POST'])
 def update_iv_term_structure_plot():
-    iv_term_structure_plot_html = plot_iv_term_structure()  # Fix this line
-    iv_term_structure_plot_data = {}  
+    search_query = request.form.get('search', None)
+    strike_price = None
+    expiration = None
+
+    if search_query:
+        try:
+            # Extract strike price
+            strike_price = int(search_query.split('-')[2])
+            print(f"Extracted strike price: {strike_price}")
+            
+            # Pass the whole query to the plot function
+            expiration = search_query
+            print(f"Raw expiration input: {expiration}")
+
+        except (IndexError, ValueError) as e:
+            return jsonify({'error': 'Invalid search query format', 'details': str(e)}), 400
+
+    # Call the modified plot function for term structure
+    iv_term_structure_plot_html = plot_iv_term_structure(strike_price, expiration)
+    iv_term_structure_plot_data = {}
+
     return jsonify({'iv_term_structure_plot_html': iv_term_structure_plot_html, 'iv_term_structure_plot_data': iv_term_structure_plot_data})
 
 
@@ -115,5 +148,6 @@ def search():
     })
 
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

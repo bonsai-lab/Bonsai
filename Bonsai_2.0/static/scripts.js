@@ -68,26 +68,24 @@ function fetchUpdatedIvSkewPlot() {
 
 
 
-
-// Function to fetch the updated IV skew plot
 function fetchUpdatedIvTermStructurePlot() {
     $.ajax({
         type: 'POST',
-        url: '/update_iv_term_structure_plot',
+        url: '/update_iv_term_structure_plot',  // Updated URL
+        data: { search: searchQuery },  
         success: function(response) {
-            if (response.iv_term_structure_plot_html) {
-                $('#iv-term-structure-plot-container').html(response.iv_term_structure_plot_html);
-                if (response.iv_term_structure_plot_data) {
+            if (response.iv_term_structure_plot_html) {  // Updated key
+                $('#iv-term-structure-plot-container').html(response.iv_term_structure_plot_html);  // Updated container ID
+                if (response.iv_term_structure_plot_data) {  // Updated key
                     Plotly.react('iv-term-structure-plot-container', JSON.parse(response.iv_term_structure_plot_data));
                 }
             }
         },
         error: function() {
-            console.error('Failed to update the IV term structure plot.');
+            console.error('Failed to update the IV term structure plot.');  // Updated error message
         }
     });
 }
-
 
 
 function fetchUpdatedWsOutput() {
@@ -139,7 +137,7 @@ function stopAutomaticWsUpdates() {
 
 // Start automatic updates for surface plot
 function startAutomaticSurfaceUpdates() {
-    updateInterval = setInterval(fetchUpdatedPlot, 5000); // Update every X ms
+    updateInterval = setInterval(fetchUpdatedPlot, 10000); // Update every X ms
     $('#pause-resume-surface-btn').text('Online').removeClass('btn-secondary').addClass('btn-primary');
     isSurfacePaused = false;
 }
@@ -153,14 +151,14 @@ function startAutomaticVolatilityUpdates() {
 
 // ... for IV skew plot
 function startAutomaticIvSkewUpdates() {
-    ivSkewUpdateInterval = setInterval(fetchUpdatedIvSkewPlot, 2000); // Update every X ms
+    ivSkewUpdateInterval = setInterval(fetchUpdatedIvSkewPlot, 2200); // Update every X ms
     $('#pause-resume-iv-skew-btn').text('Online').removeClass('btn-secondary').addClass('btn-primary');
     isIvSkewPaused = false;
 }
 
 // ... for IV term structure plot
 function startAutomaticIvTermStructureUpdates() {
-    ivTermStructureUpdateInterval = setInterval(fetchUpdatedIvTermStructurePlot, 5000); // Update every X ms
+    ivTermStructureUpdateInterval = setInterval(fetchUpdatedIvTermStructurePlot, 2000); // Update every X ms
     $('#pause-resume-iv-term-structure-btn').text('Online').removeClass('btn-secondary').addClass('btn-primary');
     isIvTermStructurePaused = false;
 }
@@ -479,3 +477,20 @@ enableDragAndResize('surface-plot-wrapper', 'surface-plot-header', 'surface-resi
 enableDragAndResize('iv-skew-plot-wrapper', 'iv-skew-plot-header', 'iv-skew-resize-handle');
 enableDragAndResize('iv-term-structure-plot-wrapper', 'iv-term-structure-plot-header', 'iv-term-structure-resize-handle');
 enableDragAndResize('ws-output-wrapper', 'ws-output-header', 'ws-output-resize-handle');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

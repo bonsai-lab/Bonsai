@@ -15,7 +15,6 @@ body {
     
 }
 
-
 .container-fluid {
     height: 100%;
     display: flex;
@@ -66,8 +65,8 @@ body {
     position: absolute; /* Use absolute positioning to handle dragging correctly */
     width: 33.33vw; /* Adjust width for three plots */
     height: 62vh; /* Use viewport height */
-    border: 2px solid #6f6f6f;
-    background: #2e2e2e;
+    border: 2px solid #101010;
+    background: #000000;
     overflow: hidden;
     cursor: move;
     display: flex;
@@ -80,7 +79,7 @@ body {
 
 .plot-header {
     height: 35px; /* Height of the draggable bar */
-    background: #6f6f6f; /* Dark background for the bar */
+    background: #141414; /* Dark background for the bar */
     color: #fff; /* White text color */
     display: flex;
     align-items: center;
@@ -120,7 +119,7 @@ body {
 
 /* Custom Navbar Styles */
 .custom-navbar {
-    background-color: #000000; /* background */
+    background-color: #1f1f1f; /* background */
     border-bottom: none;
     display: flex; /* Use flexbox for alignment */
     align-items: center; /* Center items vertically */
@@ -250,23 +249,6 @@ body {
 
 
 
-
-
-.flash {
-    animation: flash-animation 0.5s forwards;
-}
-
-@keyframes flash-animation {
-    0% {
-        background-color: yellow; /* Change to any color you prefer */
-    }
-    100% {
-        background-color: transparent;
-    }
-}
-
-
-
 .navbar .nav-link {
     font-size: 16px;
     margin-left: 5px;  /* Add some spacing between the elements */
@@ -300,3 +282,15 @@ body {
     color: #ffffff; /* Dodger blue for the low price value */
     font-size: 15px;
 }
+
+
+
+
+/* .flash {
+    animation: flash-animation 1s ease-in-out;
+}
+
+@keyframes flash-animation {
+    0% { background-color: yellow; }
+    100% { background-color: transparent; }
+} */
