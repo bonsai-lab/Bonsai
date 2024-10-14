@@ -4,7 +4,7 @@
 ![New Project (6)](https://github.com/user-attachments/assets/1a24fce2-f24e-4104-97d4-4a5a3eedbfa0)
 
 **Bonsai is an analytics platform for crypto-derivatives <br />**
-_(!note: run locally as is currently not hosted!)<br />_
+_(local application)<br />_
 
 
 ## Vol Screen
