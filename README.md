@@ -1,7 +1,7 @@
 
 
 # Bonsai v.0.22
-![New Project (6)](https://github.com/user-attachments/assets/1a24fce2-f24e-4104-97d4-4a5a3eedbfa0)
+<img width="1440" alt="Image" src="https://github.com/user-attachments/assets/bda6562b-ee8d-410e-9025-48b8d7a0a4d0" />
 
 **Bonsai is an analytics platform for crypto-derivatives <br />**
 _(local application)<br />_
